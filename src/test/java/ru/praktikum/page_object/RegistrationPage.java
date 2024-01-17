@@ -65,8 +65,9 @@ public class RegistrationPage {
     }
 
     @Step("Нажимаем кнопку \"Конструктор\"")
-    public void waitForIncorrectPasswordElement() {
-        new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOfElementLocated(incorrectPassword));
+    public WebElement waitForIncorrectPasswordElement() {
+        return new WebDriverWait(driver, 3)
+                .until(ExpectedConditions.visibilityOfElementLocated(incorrectPassword));
     }
 
     @Step("Нажимаем кнопку \"Войти\"")

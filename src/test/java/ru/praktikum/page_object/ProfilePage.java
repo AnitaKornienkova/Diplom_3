@@ -3,13 +3,13 @@ package ru.praktikum.page_object;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProfilePage {
     private final WebDriver driver;
 
-    private final By profileInfo = By.xpath("//a[@href='/account/profile']");
     private final By profileInfoNote =
             By.xpath("//p[text()='В этом разделе вы можете изменить свои персональные данные']");
     private final By appHeaderLogo =
@@ -24,8 +24,9 @@ public class ProfilePage {
     }
 
     @Step("Ожидаем загрузки страницы с личным кабинетом")
-    public void waitUntilPageIsLoaded() {
-        new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOfElementLocated(profileInfoNote));
+    public WebElement waitUntilPageIsLoaded() {
+        return new WebDriverWait(driver, 3)
+                .until(ExpectedConditions.visibilityOfElementLocated(profileInfoNote));
     }
 
     @Step("Нажимаем кнопку \"Выход\"")

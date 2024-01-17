@@ -29,8 +29,9 @@ public class HomePage {
     }
 
     @Step("Ожидаем загрузки домашней страницы")
-    public void waitUntilPageIsLoaded() {
-        new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOfElementLocated(appHeaderLogo));
+    public WebElement waitUntilPageIsLoaded() {
+        return new WebDriverWait(driver, 3)
+                .until(ExpectedConditions.visibilityOfElementLocated(appHeaderLogo));
     }
 
     @Step("Нажимаем кнопку \"Войти в аккаунт\"")
@@ -54,9 +55,9 @@ public class HomePage {
     }
 
     @Step("Кликаем на булочки")
-    public void clickOnBuns() {
+    public boolean clickOnBunsAndCheckSelected() {
         driver.findElement(bunsHeader).click();
-        new WebDriverWait(driver, 3).until(
+        return new WebDriverWait(driver, 3).until(
                 new ClassMatchingCondition(
                         bunsHeaderParentElement,
                         elementClass -> elementClass.contains("tab_tab_type_current")
@@ -75,9 +76,9 @@ public class HomePage {
     }
 
     @Step("Кликаем на соусы\"")
-    public void clickOnSauces() {
+    public boolean clickOnSaucesAndCheckSelected() {
         driver.findElement(saucesHeader).click();
-        new WebDriverWait(driver, 3).until(
+        return new WebDriverWait(driver, 3).until(
                 new ClassMatchingCondition(
                         saucesHeaderParentElement,
                         elementClass -> elementClass.contains("tab_tab_type_current")
@@ -96,9 +97,9 @@ public class HomePage {
     }
 
     @Step("Нажать на начинки")
-    public void clickOnFillings() {
+    public boolean clickOnFillingsAndCheckSelected() {
         driver.findElement(fillingsHeader).click();
-        new WebDriverWait(driver, 3).until(
+        return new WebDriverWait(driver, 3).until(
                 new ClassMatchingCondition(
                         fillingsHeaderParentElement,
                         elementClass -> elementClass.contains("tab_tab_type_current")

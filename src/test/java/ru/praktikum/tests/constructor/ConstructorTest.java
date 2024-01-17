@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import ru.praktikum.client.UserApiClient;
@@ -13,6 +14,9 @@ import ru.praktikum.model.UserData;
 import ru.praktikum.page_object.HomePage;
 import ru.praktikum.page_object.LoginPage;
 import ru.praktikum.page_object.ProfilePage;
+
+import static org.junit.Assert.assertTrue;
+import static ru.praktikum.tests.utils.Constants.STELLAR_BURGERS_URI;
 
 public class ConstructorTest {
     private WebDriver driver;
@@ -31,9 +35,9 @@ public class ConstructorTest {
         // System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         // options.setBinary("C:\\Users\\annav\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
         driver = new ChromeDriver(options);
-        driver.get("https://stellarburgers.nomoreparties.site/");
+        driver.get(STELLAR_BURGERS_URI);
 
-        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
+        RestAssured.baseURI = STELLAR_BURGERS_URI;
 
         token = UserApiClient.registerUser(UserData.TEST_USER);
     }
@@ -55,7 +59,9 @@ public class ConstructorTest {
         profilePage.waitUntilPageIsLoaded();
 
         profilePage.clickOnLogo();
-        homePage.waitUntilPageIsLoaded();
+        WebElement expectedElement = homePage.waitUntilPageIsLoaded();
+
+        assertTrue(expectedElement.isDisplayed());
     }
 
     @Test
@@ -75,7 +81,9 @@ public class ConstructorTest {
         profilePage.waitUntilPageIsLoaded();
 
         profilePage.clickOnConstructorButton();
-        homePage.waitUntilPageIsLoaded();
+        WebElement expectedElement = homePage.waitUntilPageIsLoaded();
+
+        assertTrue(expectedElement.isDisplayed());
     }
 
     @Test
@@ -89,10 +97,12 @@ public class ConstructorTest {
         loginPage.login(UserData.TEST_USER.toCredentials());
 
         homePage.waitUntilPageIsLoaded();
-        homePage.clickOnSauces();
+        homePage.clickOnSaucesAndCheckSelected();
         homePage.checkBunsParentElementClassIsNotSelected();
 
-        homePage.clickOnBuns();
+        boolean result = homePage.clickOnBunsAndCheckSelected();
+
+        assertTrue(result);
     }
 
     @Test
@@ -108,7 +118,9 @@ public class ConstructorTest {
         homePage.waitUntilPageIsLoaded();
         homePage.checkSaucesParentElementClassNotSelected();
 
-        homePage.clickOnSauces();
+        boolean result = homePage.clickOnSaucesAndCheckSelected();
+
+        assertTrue(result);
     }
 
     @Test
@@ -124,7 +136,9 @@ public class ConstructorTest {
         homePage.waitUntilPageIsLoaded();
         homePage.checkFillingsParentElementNotSelected();
 
-        homePage.clickOnFillings();
+        boolean result = homePage.clickOnFillingsAndCheckSelected();
+
+        assertTrue(result);
     }
 
     @After

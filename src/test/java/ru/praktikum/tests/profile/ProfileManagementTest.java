@@ -6,11 +6,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import ru.praktikum.client.UserApiClient;
 import ru.praktikum.model.UserData;
 import ru.praktikum.page_object.*;
+
+import static org.junit.Assert.assertTrue;
+import static ru.praktikum.tests.utils.Constants.STELLAR_BURGERS_URI;
 
 public class ProfileManagementTest {
     private WebDriver driver;
@@ -29,9 +33,9 @@ public class ProfileManagementTest {
         // System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         // options.setBinary("C:\\Users\\annav\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
         driver = new ChromeDriver(options);
-        driver.get("https://stellarburgers.nomoreparties.site/");
+        driver.get(STELLAR_BURGERS_URI);
 
-        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
+        RestAssured.baseURI = STELLAR_BURGERS_URI;
 
         token = UserApiClient.registerUser(UserData.TEST_USER);
     }
@@ -50,7 +54,9 @@ public class ProfileManagementTest {
         homePage.clickOnProfileButton();
 
         ProfilePage profilePage = new ProfilePage(driver);
-        profilePage.waitUntilPageIsLoaded();
+        WebElement expectedElement = profilePage.waitUntilPageIsLoaded();
+
+        assertTrue(expectedElement.isDisplayed());
     }
 
     @Test
@@ -70,7 +76,8 @@ public class ProfileManagementTest {
         profilePage.waitUntilPageIsLoaded();
         profilePage.clickOnLogoutButton();
 
-        loginPage.waitUntilPageIsLoaded();
+        WebElement expectedElement = loginPage.waitUntilPageIsLoaded();
+        assertTrue(expectedElement.isDisplayed());
     }
 
     @After

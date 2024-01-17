@@ -24,8 +24,9 @@ public class LoginPage {
     }
 
     @Step("Ожидаем загрузки страницы авторизации")
-    public void waitUntilPageIsLoaded() {
-        new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOfElementLocated(loginButton));
+    public WebElement waitUntilPageIsLoaded() {
+        return new WebDriverWait(driver, 3)
+                .until(ExpectedConditions.visibilityOfElementLocated(loginButton));
     }
 
     @Step("Нажимаем на кнопку \"Зарегистрироваться\"")

@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import ru.praktikum.model.UserData;
@@ -14,7 +15,8 @@ import ru.praktikum.page_object.HomePage;
 import ru.praktikum.page_object.LoginPage;
 import ru.praktikum.page_object.RegistrationPage;
 
-import static junit.framework.TestCase.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static ru.praktikum.tests.utils.Constants.STELLAR_BURGERS_URI;
 
 @RunWith(Parameterized.class)
 public class TooShortPasswordRegistrationTest {
@@ -39,7 +41,7 @@ public class TooShortPasswordRegistrationTest {
         // System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         // options.setBinary("C:\\Users\\annav\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
         driver = new ChromeDriver(options);
-        driver.get("https://stellarburgers.nomoreparties.site/");
+        driver.get(STELLAR_BURGERS_URI);
     }
 
     @Test
@@ -58,7 +60,8 @@ public class TooShortPasswordRegistrationTest {
         UserData userData = new UserData(UserData.EMAIL, password, UserData.NAME);
         registrationPage.registerUser(userData);
 
-        registrationPage.waitForIncorrectPasswordElement();
+        WebElement expectedElement = registrationPage.waitForIncorrectPasswordElement();
+        assertTrue(expectedElement.isDisplayed());
     }
 
     @After

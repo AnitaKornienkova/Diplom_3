@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import ru.praktikum.client.UserApiClient;
@@ -13,6 +14,9 @@ import ru.praktikum.model.UserData;
 import ru.praktikum.page_object.HomePage;
 import ru.praktikum.page_object.LoginPage;
 import ru.praktikum.page_object.RegistrationPage;
+
+import static org.junit.Assert.assertTrue;
+import static ru.praktikum.tests.utils.Constants.STELLAR_BURGERS_URI;
 
 public class SuccessfulRegistrationTest {
     private WebDriver driver;
@@ -30,9 +34,9 @@ public class SuccessfulRegistrationTest {
         // System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         // options.setBinary("C:\\Users\\annav\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
         driver = new ChromeDriver(options);
-        driver.get("https://stellarburgers.nomoreparties.site/");
+        driver.get(STELLAR_BURGERS_URI);
 
-        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
+        RestAssured.baseURI = STELLAR_BURGERS_URI;
     }
 
     @Test
@@ -49,7 +53,8 @@ public class SuccessfulRegistrationTest {
         registrationPage.waitUntilPageIsLoaded();
         registrationPage.registerUser(UserData.TEST_USER);
 
-        loginPage.waitUntilPageIsLoaded();
+        WebElement expectedElement = loginPage.waitUntilPageIsLoaded();
+        assertTrue(expectedElement.isDisplayed());
     }
 
     @After
